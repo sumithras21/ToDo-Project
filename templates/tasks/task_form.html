@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Task</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Add New Task</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Title:</label>
+            {{ form.title }} <br><br>
+
+            <label>Description:</label>
+            {{ form.description }} <br><br>
+
+            <label>Completed:</label>
+            {{ form.completed }} <br><br>
+            
+            <label>Assigned to:</label>
+            {{ form.assigned_to }} <br><br>
+
+            <label>Subtask Title:</label>
+            <input type="text" name="subtask_title"><br><br>
+
+            <label>Subtask Description:</label>
+            <input type="text" name="subtask_description"><br><br>
+
+            <button type="submit">Add Task</button>
+
+            {% if form.errors %}
+                <div style="color:red;">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+        </form>
+
+        <a href="/">Back</a>
+    </div>
+</body>
+</html>

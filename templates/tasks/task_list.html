@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do Dashboard</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+        <h1>My Tasks</h1>
+        <p>Welcome {{ request.user }}</p>
+        <a href="{% url 'logout' %}">Logout</a>
+        <br><br>
+        <ul>
+    {% for task in tasks %}
+    <li>
+        <b>{{ task.title }}</b><br>
+        {{ task.description }}<br>
+        <b>Assigned to:</b> {{ task.assigned_to.username }}<br>
+        <b>Created by:</b> {{ task.user.username }}<br>
+        
+        {% if task.completed %}
+             Completed
+        {% else %}
+             Not Completed
+        {% endif %}
+        <br><br>
+
+        <ul>
+        {% for subtask in task.subtasks.all %}
+            <li>
+                {{ subtask.title }} -
+                {{ subtask.description }} -
+
+                {% if subtask.completed %}
+                    Completed
+                {% else %}
+                    Not Completed
+                {% endif %}
+
+                | <a href="{% url 'update_subtask' subtask.id %}">Update</a>
+                | <a href="{% url 'delete_subtask' subtask.id %}">Delete</a>
+            </li>
+        {% empty %}
+            <li>No subtasks</li>
+        {% endfor %}
+        </ul>
+
+        <a href="{% url 'add_subtask' task.id %}">Add SubTask</a> |
+        <a href="{% url 'update_task' task.id %}">Update</a> |
+        <a href="{% url 'delete_task' task.id %}">Delete</a>
+
+        <br><br>
+    </li>
+    {% endfor %}
+</ul>
+
+<br>
+        <a href="{% url 'add_task' %}">Add Task</a>
+
+{% else %}
+
+        <h2>You are not logged in</h2>
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+
+{% endif %}
+
+</body>
+</html>

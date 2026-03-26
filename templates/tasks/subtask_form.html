@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Subtask</title>
+</head>
+<body>
+    <h1>Add Subtask</h1>
+    <form method="POST">
+    {% csrf_token %}
+
+    {{ form.title.label }}<br>
+    {{ form.title }}<br><br>
+
+    {{ form.description.label }}<br>
+    {{ form.description }}<br><br>
+
+    {{ form.completed }} Completed<br><br>
+
+    <button type="submit">Save</button>
+    </form>
+</body>
+</html>
