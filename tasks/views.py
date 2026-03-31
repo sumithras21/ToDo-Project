@@ -7,9 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets,generics,filters   
 from rest_framework.permissions import IsAuthenticated
 from .serializers import TaskSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 def register(request):
     if request.method == 'POST':
@@ -140,6 +141,11 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
 
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['title', 'description', 'completed']
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_at', 'due_date']
+
     def get_queryset(self):
         user = self.request.user
         return Tasks.objects.filter(
@@ -148,3 +154,23 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class TaskCreateView(generics.ListCreateAPIView):
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Tasks.objects.filter(
+            Q(user=user) | Q(assigned_to=user)
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tasks.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+   
