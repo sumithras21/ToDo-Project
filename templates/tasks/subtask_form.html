@@ -1,22 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Add Subtask</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+
+<div class="container">
     <h1>Add Subtask</h1>
+
     <form method="POST">
-    {% csrf_token %}
+        {% csrf_token %}
 
-    {{ form.title.label }}<br>
-    {{ form.title }}<br><br>
+        <label>{{ form.title.label }}</label>
+        {{ form.title }}
 
-    {{ form.description.label }}<br>
-    {{ form.description }}<br><br>
+        <label>{{ form.description.label }}</label>
+        {{ form.description }}
 
-    {{ form.completed }} Completed<br><br>
+        <!-- ✅ Inline Checkbox -->
+        <div class="checkbox-row">
+            {{ form.completed }}
+            <label>Completed</label>
+        </div>
 
-    <button type="submit">Save</button>
+        <button type="submit">Save</button>
     </form>
+
+    <a href="{% url 'task_list' %}">Back</a>
+</div>
+
 </body>
 </html>
+
+

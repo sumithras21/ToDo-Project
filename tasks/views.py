@@ -122,7 +122,7 @@ def api_create_task(request):
     serializer = TaskSerializer(data=request.data)
 
     if serializer.is_valid():
-        # set creator automatically
+
         serializer.save(user=request.user)
         return Response(serializer.data)
 
@@ -130,7 +130,6 @@ def api_create_task(request):
 
 @api_view(['GET'])
 def api_get_tasks(request):
-    # show tasks created OR assigned
     tasks = Tasks.objects.filter(
         Q(user=request.user) | Q(assigned_to=request.user)
     )

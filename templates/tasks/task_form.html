@@ -13,28 +13,38 @@
         <form method="POST">
             {% csrf_token %}
 
-            <label>Title:</label>
-            {{ form.title }} <br><br>
+            <!-- Title -->
+            <label>Title</label>
+            {{ form.title }}
 
-            <label>Description:</label>
-            {{ form.description }} <br><br>
+            <!-- Description -->
+            <label>Description</label>
+            {{ form.description }}
 
-            <label>Completed:</label>
-            {{ form.completed }} <br><br>
-            
-            <label>Assigned to:</label>
-            {{ form.assigned_to }} <br><br>
+            <div class="checkbox-row">
+                {{ form.completed }}
+                <label for="id_completed">Completed</label>
+            </div>
 
-            <label>Subtask Title:</label>
-            <input type="text" name="subtask_title"><br><br>
+            <!-- Assigned User -->
+            <label>Assigned to</label>
+            {{ form.assigned_to }}
 
-            <label>Subtask Description:</label>
-            <input type="text" name="subtask_description"><br><br>
+            <!-- Subtask Section -->
+            <div class="subtask-section">
+                <h4>Subtask Details</h4>
+
+                <label>Subtask Title</label>
+                <input type="text" name="subtask_title" placeholder="Enter subtask title">
+
+                <label>Subtask Description</label>
+                <textarea name="subtask_description" placeholder="Enter subtask description"></textarea>
+            </div>
 
             <button type="submit">Add Task</button>
 
             {% if form.errors %}
-                <div style="color:red;">
+                <div class="error-box">
                     {{ form.errors }}
                 </div>
             {% endif %}
