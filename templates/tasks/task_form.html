@@ -2,55 +2,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Task</title>
+    <title>Task Form</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <h2>Add New Task</h2>
+<div class="container">
 
-        <form method="POST">
-            {% csrf_token %}
+    <h2>
+        {% if parent_task %}
+            Add Subtask for "{{ parent_task.title }}"
+        {% else %}
+            Add Task
+        {% endif %}
+    </h2>
 
-            <!-- Title -->
-            <label>Title</label>
-            {{ form.title }}
+    <form method="POST">
+        {% csrf_token %}
 
-            <!-- Description -->
-            <label>Description</label>
-            {{ form.description }}
+        <label>Title</label>
+        {{ form.title }}
+        <label>Description</label>
+        {{ form.description }}
 
-            <div class="checkbox-row">
-                {{ form.completed }}
-                <label for="id_completed">Completed</label>
-            </div>
+        <div class="checkbox-row">
+            {{ form.completed }}
+            <label>Completed</label>
+        </div>
 
-            <!-- Assigned User -->
+        {% if not parent_task %}
             <label>Assigned to</label>
             {{ form.assigned_to }}
+        {% endif %}
 
-            <!-- Subtask Section -->
-            <div class="subtask-section">
-                <h4>Subtask Details</h4>
+        <button type="submit">
+            {% if parent_task %}Add Subtask{% else %}Add Task{% endif %}
+        </button>
 
-                <label>Subtask Title</label>
-                <input type="text" name="subtask_title" placeholder="Enter subtask title">
-
-                <label>Subtask Description</label>
-                <textarea name="subtask_description" placeholder="Enter subtask description"></textarea>
+        {% if form.errors %}
+            <div class="error-box">
+                {{ form.errors }}
             </div>
+        {% endif %}
+    </form>
 
-            <button type="submit">Add Task</button>
+    <a href="{% url 'task_list' %}">Back</a>
 
-            {% if form.errors %}
-                <div class="error-box">
-                    {{ form.errors }}
-                </div>
-            {% endif %}
-        </form>
-
-        <a href="/">Back</a>
-    </div>
+</div>
 </body>
 </html>

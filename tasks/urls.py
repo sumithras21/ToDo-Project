@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
-from .views import api_create_task, api_get_tasks, TaskViewSet
 from rest_framework.routers import DefaultRouter
+from .views import TaskViewSet
 
 router = DefaultRouter()
 router.register('tasks', TaskViewSet, basename='tasks')
@@ -17,9 +17,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
-    path('api/generic/tasks/',views.TaskCreateView.as_view(),name='task-list-create'),
-    path('api/generic/tasks/<int:pk>/',views.TaskDetailView.as_view(),name='task-detail'),
-
 
     path('api/', include(router.urls)),
 ]

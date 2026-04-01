@@ -1,5 +1,5 @@
 from django import forms
-from .models import Tasks, SubTask
+from .models import Tasks
 from django.contrib.auth.models import User
 
 class Taskform(forms.ModelForm):
@@ -8,41 +8,26 @@ class Taskform(forms.ModelForm):
         fields = ['title', 'description', 'completed', 'assigned_to']
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+        self.user = kwargs.pop('user', None)      
+        self.parent = kwargs.pop('parent', None) 
         super().__init__(*args, **kwargs)
         self.fields['assigned_to'].queryset = User.objects.all()
 
-        if user:
-            self.fields['assigned_to'].queryset = User.objects.exclude(id=user.id)
-            
     def clean_title(self):
         title = self.cleaned_data.get('title')
         qs = Tasks.objects.filter(title=title)
-        if self.instance:
-            qs = qs.exclude(id=self.instance.id)
-
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
             raise forms.ValidationError("Task already exists")
-
         return title
 
-class SubTaskform(forms.ModelForm):
-    class Meta:
-        model = SubTask
-        fields = ['title', 'description', 'completed']
-
-    def __init__(self, *args, **kwargs):
-        kwargs.pop('user', None) 
-        super().__init__(*args, **kwargs)
-
-    def clean_title(self):
-        title = self.cleaned_data.get('title')
-        qs = SubTask.objects.filter(title=title)
-
-        if self.instance:
-            qs = qs.exclude(id=self.instance.id)
-
-        if qs.exists():
-            raise forms.ValidationError("Subtask already exists")
-
-        return title
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.parent:
+            instance.parent = self.parent
+        if self.user:
+            instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
