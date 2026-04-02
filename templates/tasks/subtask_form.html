@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Add Subtask</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleS.css' %}">
 </head>
 <body>
 
@@ -18,8 +18,7 @@
 
         <label>{{ form.description.label }}</label>
         {{ form.description }}
-
-        <!-- ✅ Inline Checkbox -->
+        
         <div class="checkbox-row">
             {{ form.completed }}
             <label>Completed</label>

@@ -1,127 +1,234 @@
-/* ===== GLOBAL ===== */
+/* GLOBAL */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
     margin: 0;
     padding: 0;
-    color: #333;
+    color: #fff;
 }
 
-/* ===== CONTAINER ===== */
+/* CONTAINER (used for forms + dashboard) */
 .container {
-    width: 50%;
+    width: 90%;
+    max-width: 1000px;
     margin: 40px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* ===== HEADINGS ===== */
+/* FORM CONTAINER (centered card) */
+.container form {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* HEADINGS */
 h1, h2 {
     text-align: center;
-    color: #2c3e50;
+    margin-bottom: 15px;
 }
 
-/* ===== INPUT FIELDS ===== */
+.welcome {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* ================= DASHBOARD ================= */
+
+/* GRID */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* TASK CARD */
+.task-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+}
+
+/* DESCRIPTION */
+.desc {
+    opacity: 0.9;
+}
+
+/* STATUS */
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.done {
+    background: #2ecc71;
+}
+
+.pending {
+    background: #e74c3c;
+}
+
+/* SUBTASK */
+.subtask-box {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* ACTION BUTTONS */
+.actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.actions a {
+    background: rgba(255,255,255,0.2);
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: black;              /* ✅ BLACK TEXT */
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.actions a:hover {
+    background: #00c6ff;
+    color: black;              /* ✅ keep black on hover */
+}
+
+.add-task {
+    display: block;
+    margin: 30px auto;
+    text-align: center;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: black;            
+    width: fit-content;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* LOGOUT BUTTON */
+.bottom-logout {
+    background: #e74c3c;
+    color: black;
+    display: block;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 10px;
+    width: 140px;
+    margin: 40px auto 0 auto;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.bottom-logout:hover {
+    background: #c0392b;
+    text-decoration: none;
+}
+
+/* ================= FORM ================= */
+
+/* LABELS */
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* INPUTS */
 input[type="text"],
 textarea,
 select {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
     font-size: 14px;
-    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
+/* TEXTAREA */
 textarea {
+    height: 100px;
     resize: none;
-    height: 80px;
 }
 
-/* ===== CHECKBOX ===== */
+/* CHECKBOX */
 .checkbox-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-top: 10px;
 }
 
-/* ===== BUTTON ===== */
+/* BUTTON */
 button {
     width: 100%;
+    margin-top: 20px;
     padding: 10px;
-    background-color: #3498db;
-    color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
+    background: #00c6ff;
+    color: black;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background: #009ec3;
+    color: black;
 }
 
-/* ===== LINKS ===== */
-a {
-    color: #3498db;
+/* ERROR BOX */
+.error-box {
+    margin-top: 10px;
+    padding: 10px;
+    background: #ffdddd;
+    color: #ff4d4d;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+/* BACK LINK */
+.container a {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #00c6ff;
     text-decoration: none;
-    margin-right: 10px;
 }
 
-a:hover {
+.container a:hover {
     text-decoration: underline;
 }
 
-/* ===== TASK LIST ===== */
-ul {
-    list-style-type: none;
-    padding: 0;
-}
+/* ================= RESPONSIVE ================= */
 
-li {
-    background: #ffffff;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 5px solid #3498db;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
+@media (max-width: 768px) {
+    .task-grid {
+        grid-template-columns: 1fr;
+    }
 
-/* ===== SUBTASK BOX ===== */
-li ul li {
-    background: #f9fafc;
-    border-left: 4px solid #2ecc71;
-    margin-top: 8px;
-}
-
-/* ===== STATUS ===== */
-.completed {
-    color: green;
-    font-weight: bold;
-}
-
-.not-completed {
-    color: red;
-    font-weight: bold;
-}
-
-/* ===== ERROR BOX ===== */
-.error-box {
-    background: #ffe6e6;
-    color: #cc0000;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-/* ===== AUTH MESSAGE ===== */
-.auth-box {
-    text-align: center;
-    margin-top: 50px;
+    .container {
+        width: 95%;
+    }
 }

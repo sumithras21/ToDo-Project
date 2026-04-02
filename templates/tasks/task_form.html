@@ -2,11 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Task Form</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Add Task</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
+
 <div class="container">
 
     <h2>
@@ -22,6 +23,7 @@
 
         <label>Title</label>
         {{ form.title }}
+
         <label>Description</label>
         {{ form.description }}
 
@@ -49,5 +51,6 @@
     <a href="{% url 'task_list' %}">Back</a>
 
 </div>
+
 </body>
 </html>

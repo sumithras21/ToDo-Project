@@ -3,68 +3,73 @@
 <html>
 <head>
     <title>To-Do Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=3">
 </head>
+
 <body>
 
+<div class="container">
+
 {% if user.is_authenticated %}
+
     <h1>My Tasks</h1>
-    <p>Welcome {{ request.user }}</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    <p class="welcome">Welcome {{ request.user }}</p>
 
-    <br><br>
+    <div class="task-grid">
 
-    <ul>
-    {% for task in tasks %}
-        <li>
-            <b>{{ task.title }}</b><br>
-            {{ task.description }}<br>
+        {% for task in tasks %}
+        <div class="task-card">
 
-            <b>Assigned to:</b>
-            {{ task.assigned_to.username|default:"None" }}<br>
+            <h3>{{ task.title }}</h3>
+            <p class="desc">{{ task.description }}</p>
 
-            <b>Created by:</b> {{ task.user.username }}<br>
+            <p><b>Assigned:</b> {{ task.assigned_to.username|default:"None" }}</p>
+            <p><b>Created by:</b> {{ task.user.username }}</p>
 
+             <div class="status-box">
             {% if task.completed %}
-                Completed
+                <span class="status done">✔ Completed</span>
             {% else %}
-                Not Completed
+                <span class="status pending">✖ Not Completed</span>
             {% endif %}
+</div>
 
-            <br><br>
+            <div class="subtask-box">
+                <b>Subtasks:</b>
+                <ul>
+                    {% for subtask in task.subtasks.all %}
+                        <li>
+                            {{ subtask.title }}
+                        </li>
+                    {% empty %}
+                        <li>No subtasks</li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-            <ul>
-                {% for subtask in task.subtasks.all %}
-                    <li>
-                        {{ subtask.title }} - {{ subtask.description }}
+            <div class="actions">
+                <a href="{% url 'add_subtask' task.id %}">+ Subtask</a>
+                <a href="{% url 'update_task' task.id %}">Update</a>
+                <a href="{% url 'delete_task' task.id %}">Delete</a>
+            </div>
 
-                        {% if subtask.completed %}
-                            (Completed)
-                        {% else %}
-                            (Not Completed)
-                        {% endif %}
-                    </li>
-                {% empty %}
-                    <li>No subtasks</li>
-                {% endfor %}
-            </ul>
+        </div>
+        {% endfor %}
 
-            <a href="{% url 'add_subtask' task.id %}">+ Add Subtask</a> |
-            <a href="{% url 'update_task' task.id %}">Update</a> |
-            <a href="{% url 'delete_task' task.id %}">Delete</a>
+    </div>
 
-            <br><br>
-        </li>
-    {% endfor %}
-    </ul>
-
-    <a href="{% url 'add_task' %}">Add Task</a>
+    <a class="add-task" href="{% url 'add_task' %}">+ Add Task</a>
+    <a class="logout-btn bottom-logout" href="{% url 'logout' %}">Logout</a>
 
 {% else %}
+
     <h2>You are not logged in</h2>
     <a href="{% url 'login' %}">Login</a> |
     <a href="{% url 'register' %}">Register</a>
+
 {% endif %}
+
+</div>
 
 </body>
 </html>
